@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Image Upload and Prediction</title>
+  <h2>Binary Classification Of CNN Using VGG16 Architecture</h2>
+  <style>
+    body {
+      background-image: url("https://e0.pxfuel.com/wallpapers/190/566/desktop-wallpaper-background-for-html-page-html-css.jpg");  /* Replace with your image path */
+      background-size: cover;
+      background-position: center;
+      font-family: sans-serif;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    form {
+      margin: 20px;
+      padding: 20px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      background-color: #fff;
+    }
+
+    #imageInput {
+      display: block;
+      margin-bottom: 15px;
+    }
+
+    input[type="submit"] {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      background-color: #333;
+      color: #fff;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+
+    #result {
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <form action="/predict" method="post" enctype="multipart/form-data">
+    <input type="file" name="image" id="imageInput">
+    <input type="submit" value="Predict">
+  </form>
+  <div id="result">
+    {% if prediction %}
+      <p>Prediction: {{ prediction }}</p>
+    {% else %}
+      <p>No prediction yet.</p>
+    {% endif %}
+  </div>
+
+  <script>
+    const imageInput = document.getElementById('imageInput');
+    const resultDiv = document.getElementById('result');
+
+    imageInput.addEventListener('change', (event) => {
+      const file = event.target.files[0];
+      const reader = new FileReader();
+
+      reader.onload = (event) => {
+        const img = new Image();
+        img.src = event.target.result;
+        resultDiv.innerHTML = ''; // Clear previous results
+        resultDiv.appendChild(img);
+      };
+
+      reader.readAsDataURL(file);
+    });
+  </script>
+</body>
+</html>
